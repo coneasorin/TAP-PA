@@ -19,7 +19,7 @@ int main() {
     cin>>max;
     for (int i = 0; i < max; i ++){
         nums.insert(nums.begin() + i,intRand(0,100));
-        //cout<<nums[i]<<",";
+        cout<<nums[i]<<",";
     };
     cout<<"\n";
     bool stopped = false;

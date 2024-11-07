@@ -1,38 +1,31 @@
-import math
-import random
-import numpy as np
+def counting_sort(arr, exp):
+    n = len(arr)
+    output = [0] * n
+    count = [0] * 10
 
-def radixSort(arr):
-    length = len(arr)
-    maxN = max(arr)
+    for i in range(n):
+        index = arr[i] // exp
+        count[index % 10] += 1
+
+    for i in range(1, 10):
+        count[i] += count[i - 1]
+
+    # Build the output array
+    for i in range(n - 1, -1, -1):
+        index = arr[i] // exp
+        output[count[index % 10] - 1] = arr[i]
+        count[index % 10] -= 1
+    for i in range(n):
+        arr[i] = output[i]
+
+def radix_sort(arr):
+    max_num = max(arr)
+
     exp = 1
-    while maxN // exp > 0:
-        output = [0] * length
-        count = [0] * 10
-
-        for i in range(length):
-            index = arr[i] // exp
-            count[index % 10] += 1
-
-        for i in range(0, 9):
-            count[i + 1] += count[i]
-
-        for i in range(length - 1, -1, -1):
-            index = arr[i] // exp
-            output[count[index % 10] - 1] = arr[i]
-            count[index % 10] -= 1
-
-        for i in range(length):
-            arr[i] = output[i]
+    while max_num // exp > 0:
+        counting_sort(arr, exp)
         exp *= 10
 
-
-def main():
-    arr = []
-    inp1 = input("Introduce un nr (nr ales * 2 v-a fi valoarea maxima posibila in lista): ")
-    for i in range(int(inp1)):
-        arr.append(random.randint(1, int(inp1)*2))
-    radixSort(arr)
-    print(arr)
-
-main()
+arr = [170, 45, 75, 90, 802, 24, 2, 66]
+radix_sort(arr)
+print("Sorted array:", arr)
