@@ -1,3 +1,4 @@
+######alta versiune Foarfeca Hartie Piatra ######## 
 from tkinter import *
 from tkinter import messagebox
 import random
@@ -50,3 +51,5 @@ button_foarfeca.pack(side="left", padx=10)
 
 # main loop
 afisaj.mainloop()
+
+
