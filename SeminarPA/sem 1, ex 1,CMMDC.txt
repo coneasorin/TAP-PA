@@ -1,0 +1,22 @@
+//Scrieti un program in C++ care determina cel mai mare divizor comun pentru 2 nr intregi citite de la tastatura
+#include<iostream>
+#include<cmath>
+using namespace std;
+int main()
+{
+    int a,b;
+    cin>>a>>b;
+    while(a!=b)
+    {
+        if(a>b)
+        {
+            a=a-b;
+        }
+        else
+        {
+            b=b-a;
+        }
+    }
+    cout<<"CMMDC=ul lor este: "<<a;
+    return 0;
+}

@@ -1,0 +1,35 @@
+#include <iostream>
+#include <cmath>
+#include <complex> // Pentru soluțiile complexe
+using namespace std;
+ 
+int main() {
+    double a, b, c;
+    cout << "Introduceți coeficienții a, b și c ai ecuației de gradul 2 (ax^2 + bx + c = 0): ";
+    cin >> a >> b >> c;
+ 
+    if (a == 0) {
+        cout << "Coeficientul a trebuie să fie diferit de zero pentru a fi o ecuație de gradul 2." << endl;
+        return 1;
+    }
+ 
+    double delta = b * b - 4 * a * c;
+ 
+    if (delta > 0) {
+        // Două soluții reale distincte
+        double x1 = (-b + sqrt(delta)) / (2 * a);
+        double x2 = (-b - sqrt(delta)) / (2 * a);
+        cout << "Soluțiile sunt reale și distincte: x1 = " << x1 << ", x2 = " << x2 << endl;
+    } else if (delta == 0) {
+        // O singură soluție reală
+        double x = -b / (2 * a);
+        cout << "Soluția este reală și dublă: x = " << x << endl;
+    } else {
+        // Două soluții complexe
+        complex<double> x1 = complex<double>(-b, sqrt(-delta)) / (2.0 * a);
+        complex<double> x2 = complex<double>(-b, -sqrt(-delta)) / (2.0 * a);
+        cout << "Soluțiile sunt complexe: x1 = " << x1 << ", x2 = " << x2 << endl;
+    }
+ 
+    return 0;
+}

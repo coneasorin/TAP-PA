@@ -1,0 +1,35 @@
+//Metoda de sortare Merge Sort
+#include<iostream>
+using namespace std;
+int main()
+{
+ int n;
+ cout<<"Introduceti numarul de elemente: ";
+ cin>>n;
+ int a[n];
+ cout<<"Introduceti elementele pentru a[n]: ";
+ for(int i=1;i<=n;i++)
+ {
+     cin>>a[i];
+ }
+ 
+ //Sortarea
+ for(int i=0;i<=n-2;i++)
+ {
+     for(int j=i+1;j<=n-1;j++)
+     {
+         if(a[i]>a[j])
+         {
+             swap(a[i],a[j]);
+         }
+     }
+ }
+ 
+ //Afisarea
+ cout<<"Array-ul sortat: ";
+ for(int i=0;i<n;i++)
+ {
+     cout<<a[i]<<" ";
+ }
+ return 0;
+}

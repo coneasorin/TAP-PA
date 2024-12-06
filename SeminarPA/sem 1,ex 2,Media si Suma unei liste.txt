@@ -1,0 +1,32 @@
+//Scrieti un program care determina media si suma unei liste de elemente citite de la tastatura
+#include <iostream>
+#include <vector>
+using namespace std;
+ 
+int main() {
+    int n;
+    double suma = 0.0;
+    
+    cout << "Introduceți numărul de elemente: ";
+    cin >> n;
+ 
+    if (n <= 0) {
+        cout << "Numărul de elemente trebuie să fie mai mare decât zero." << endl;
+        return 1;
+    }
+ 
+    vector<double> numere(n);
+    
+    cout << "Introduceți elementele: ";
+    for (int i = 0; i < n; i++) {
+        cin >> numere[i];
+        suma += numere[i];
+    }
+    
+    double media = suma / n;
+ 
+    cout << "Suma elementelor este: " << suma << endl;
+    cout << "Media elementelor este: " << media << endl;
+ 
+    return 0;
+}

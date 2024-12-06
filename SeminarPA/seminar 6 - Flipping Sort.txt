@@ -1,0 +1,59 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+using namespace std;
+ 
+// Functie care face flip la primul k elemente
+void flip(vector<int>& arr, int k) {
+    reverse(arr.begin(), arr.begin() + k);
+}
+ 
+// Functie care returneaza indexul maximului dintr-un interval [0, n)
+int findMaxIndex(const vector<int>& arr, int n) {
+    int maxIndex = 0;
+    for (int i = 1; i < n; i++) {
+        if (arr[i] > arr[maxIndex]) {
+            maxIndex = i;
+        }
+    }
+    return maxIndex;
+}
+ 
+// Functia principala pentru sortarea prin flipping
+void pancakeSort(vector<int>& arr) {
+    for (int size = arr.size(); size > 1; size--) {
+        // Gaseste indexul maximului din intervalul [0, size)
+        int maxIndex = findMaxIndex(arr, size);
+        
+        // Daca maximul nu e deja la finalul intervalului, fa flip-uri
+        if (maxIndex != size - 1) {
+            // Fa un flip ca sa aduci maximul la inceput
+            if (maxIndex > 0) {
+                flip(arr, maxIndex + 1);
+            }
+            // Fa un flip ca sa aduci maximul la final
+            flip(arr, size);
+        }
+    }
+}
+ 
+// Functie pentru afisarea unui vector
+void printArray(const vector<int>& arr) {
+    for (int num : arr) {
+        cout << num << " ";
+    }
+    cout << endl;
+}
+ 
+int main() {
+    vector<int> arr = {3, 6, 1, 5, 9, 8};
+    cout << "Array initial: ";
+    printArray(arr);
+    
+    pancakeSort(arr);
+    
+    cout << "Array sortat: ";
+    printArray(arr);
+    
+    return 0;
+}
