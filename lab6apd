@@ -1,0 +1,72 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <mpi.h>
+#include <time.h>
+
+int throw_dice() {
+    return rand() % 6 + 1;  // Generează un număr între 1 și 6
+}
+
+int main(int argc, char *argv[]) {
+    int rank, size;
+    int dice_value, sum1, sum2, sum3;
+    
+    // Inițializarea MPI
+    MPI_Init(&argc, &argv);
+    MPI_Comm_rank(MPI_COMM_WORLD, &rank);
+    MPI_Comm_size(MPI_COMM_WORLD, &size);
+
+    // Asigurăm că avem cel puțin 4 procese
+    if (size < 4) {
+        if (rank == 0) {
+            printf("Este nevoie de cel puțin 4 procese!\n");
+        }
+        MPI_Finalize();
+        return 1;
+    }
+
+    // Semănăm generatorul de numere aleatoare diferit pentru fiecare proces
+    srand(time(NULL) + rank);
+
+    // Procesul 0
+    if (rank == 0) {
+        dice_value = throw_dice();
+        printf("Procesul 0 arunca zarul si obtine: %d\n", dice_value);
+        MPI_Send(&dice_value, 1, MPI_INT, 3, 0, MPI_COMM_WORLD);
+    }
+
+    // Procesul 1
+    else if (rank == 1) {
+        int dice1 = throw_dice();
+        int dice2 = throw_dice();
+        sum1 = dice1 + dice2;
+        printf("Procesul 1 arunca zarurile si obtine: %d si %d, suma este: %d\n", dice1, dice2, sum1);
+        MPI_Send(&sum1, 1, MPI_INT, 3, 0, MPI_COMM_WORLD);
+    }
+
+    // Procesul 2
+    else if (rank == 2) {
+        int dice1 = throw_dice();
+        int dice2 = throw_dice();
+        int dice3 = throw_dice();
+        sum2 = dice1 + dice2 + dice3;
+        printf("Procesul 2 arunca zarurile si obtine: %d, %d, %d, suma este: %d\n", dice1, dice2, dice3, sum2);
+        MPI_Send(&sum2, 1, MPI_INT, 3, 0, MPI_COMM_WORLD);
+    }
+
+    // Procesul 3
+    else if (rank == 3) {
+        int value0, value1, value2;
+        
+        MPI_Recv(&value0, 1, MPI_INT, 0, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(&value1, 1, MPI_INT, 1, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+        MPI_Recv(&value2, 1, MPI_INT, 2, 0, MPI_COMM_WORLD, MPI_STATUS_IGNORE);
+
+        int total_sum = value0 + value1 + value2;
+        printf("Procesul 3 primeste valorile si calculeaza suma totala: %d + %d + %d = %d\n", value0, value1, value2, total_sum);
+    }
+
+    // Finalizarea MPI
+    MPI_Finalize();
+    return 0;
+}
